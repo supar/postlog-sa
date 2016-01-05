@@ -1,0 +1,1 @@
+## Postfix log spam analizer
