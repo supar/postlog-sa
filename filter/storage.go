@@ -13,7 +13,7 @@ var (
 )
 
 type Storage struct {
-	threadDone func(ThreadFace)
+	threadDone func(v ThreadFace, args ...interface{}) error
 	keepData   bool
 	data       map[string]*MailThread
 }
@@ -21,7 +21,7 @@ type Storage struct {
 // Craete storage instance
 func NewStorage() (s *Storage) {
 	s = &Storage{
-		threadDone: func(v ThreadFace) {},
+		threadDone: func(v ThreadFace, args ...interface{}) error { return nil },
 		data:       make(map[string]*MailThread),
 	}
 
@@ -34,7 +34,7 @@ func (this *Storage) SetKeepData(v bool) {
 }
 
 // Set call back func on main thread information is fill full
-func (this *Storage) SetThreadDoneCb(fn func(ThreadFace)) {
+func (this *Storage) SetThreadDoneCb(fn func(v ThreadFace, args ...interface{}) (err error)) {
 	this.threadDone = fn
 }
 
@@ -81,7 +81,7 @@ func (this *Storage) Set(m *MailThread) {
 }
 
 // Test each thread to run callback function
-func (this *Storage) ThreadDone(m *MailThread) {
+func (this *Storage) ThreadDone(m *MailThread, args ...interface{}) {
 	var (
 		item,
 		child,
@@ -106,13 +106,13 @@ func (this *Storage) ThreadDone(m *MailThread) {
 
 	if parent.Removed == true {
 		if parent == child {
-			this.threadDone(parent)
+			this.threadDone(parent, args...)
 			this.Destroy(parent.GetId())
 		} else {
 			if parent.Removed == child.Removed {
 				parent.SpamScore = child.SpamScore
 
-				this.threadDone(parent)
+				this.threadDone(parent, args...)
 				this.Destroy(parent.GetId())
 				this.Destroy(child.GetId())
 			}
