@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-var log		*Log
+var log *Log
 
 // RFC5424 log message levels.
 // 0       Emergency: system is unusable
@@ -104,12 +104,12 @@ func (this *Log) Die(iserror bool) {
 	var code int = -1
 
 	switch iserror {
-		case true:
-			this.Error("Exit")
+	case true:
+		this.Error("Exit")
 
-		case false:
-			this.Info("Exit")
-			code = 0
+	case false:
+		this.Info("Exit")
+		code = 0
 	}
 
 	this.Close()
