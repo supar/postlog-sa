@@ -210,15 +210,20 @@ user =
 pass = 
 charset = 
 
+# Sql query
+[sql]
+query = 
+
 # Some log comment
 [log]
 file = 
 level = 
 `
 	cfg_json = fmt.Sprintf(
-		`{"Tail":%s,"DB":%s,"Log":%s,"Console":%s}`,
+		`{"Tail":%s,"DB":%s,"SQL":%s,"Log":%s,"Console":%s}`,
 		`{"File":""}`,
 		`{"User":"","Password":"","Host":"","Port":0,"Name":"","Charset":"","Location":""}`,
+		`{"Query":""}`,
 		`{"level":0,"filename":""}`,
 		`{"level":0}`,
 	)

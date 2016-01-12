@@ -33,7 +33,13 @@ type Config struct {
 		Name     string `ini:"name"`
 		Charset  string `ini:"charset"`
 		Location string `ini:"zone"`
+		Ok       bool   `json:"-"`
 	} `ini:"db"`
+
+	SQL struct {
+		Query string `ini:"query"`
+		Ok    bool   `json:"-"`
+	} `ini:"sql"`
 
 	Log struct {
 		Level int    `ini:"level" json:"level"`
@@ -100,6 +106,10 @@ func NewConfig(file string) (c *Config, err error) {
 	}
 
 	return
+}
+
+func (this *Config) CanSql() bool {
+	return this.DB.Ok && this.SQL.Ok
 }
 
 // Convert part of the configuration struct or whole object to json string
