@@ -27,12 +27,12 @@ func TestApplyMailThreadItem(t *testing.T) {
 			`Nov 22 03:47:13 mx postfix/qmgr[8015]: D549FB08A08B: removed`,
 		}
 
-		s   *filter.Storage
-		err error
+		s    *filter.Storage
+		err  error
 		iter uint
 	)
 
-	var fn = func(item filter.ThreadFace) {
+	var fn = func(item filter.ThreadFace, args ...interface{}) error {
 		if v := item.GetMessageId(); v != "4ea6228aa481371f55ed30bb51408481@mail.ru" {
 			t.Errorf("Expected message id=%s, but got %s", "4ea6228aa481371f55ed30bb51408481@mail.ru", v)
 		}
@@ -42,6 +42,8 @@ func TestApplyMailThreadItem(t *testing.T) {
 		}
 
 		iter++
+
+		return nil
 	}
 
 	s = filter.NewStorage()
@@ -83,12 +85,14 @@ func TestSpamStatWithDefferedMail(t *testing.T) {
 		iter uint
 	)
 
-	var fn = func(item filter.ThreadFace) {
+	var fn = func(item filter.ThreadFace, args ...interface{}) error {
 		if sp := item.GetSpamScore(); sp > 0 {
 			t.Errorf("Expected spam score 0, but got %d", sp)
 		}
 
 		iter++
+
+		return nil
 	}
 
 	s = filter.NewStorage()
@@ -134,15 +138,17 @@ func TestStorageSetMutlipleSmtpd(t *testing.T) {
 		s    *filter.Storage
 		err  error
 		iter int
-		a uint = 3
+		a    uint = 3
 	)
 
-	var fn = func(item filter.ThreadFace) {
+	var fn = func(item filter.ThreadFace, args ...interface{}) error {
 		if v := item.GetSpamScore(); v != a {
 			t.Errorf("Expected spam score %d, but got %d", a, v)
 		}
 
 		iter++
+
+		return nil
 	}
 
 	s = filter.NewStorage()
