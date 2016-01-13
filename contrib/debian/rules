@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+# export DH_VERBOSE := 1
+
+# Export variables
+export PATH := /usr/local/go/bin:/go/bin:$(PATH)
+export GOPATH := /go:$(CURDIR)
+export DESTDIR := debian/postlog-sa
+
+override_dh_auto_clean:
+	rm -rf `ls -A | grep -v "debian"`
+	tar xf ../*.orig.tar.gz -C ..
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	cd src/postlog-sa && $(MAKE) build
+
+override_dh_auto_test:
+	cd src/postlog-sa && $(MAKE) test
+
+override_dh_auto_install:
+	install -g 0 -o 0 -d $(DESTDIR)/etc/postlog-sa/
+	install -g 0 -o 0 -d $(DESTDIR)/etc/init.d/
+	install -g 0 -o 0 -d $(DESTDIR)/usr/sbin/
+	install -g 0 -o 0 -d $(DESTDIR)/var/log/postlog-sa/
+	install -m755 src/postlog-sa/postlog-sa $(DESTDIR)/usr/sbin/
+	install -m755 debian/postlog-sa.init.sh $(DESTDIR)/etc/init.d/postlog-sa
+	install -m644 debian/postlog-sa.ini $(DESTDIR)/etc/postlog-sa/postlog-sa.ini.sample
+
+# the SHA1 of dockerinit is important: don't strip it
+# also, Go has lots of problems with stripping, so just don't
+override_dh_strip:
+
+
+%:
+	dh $@
+

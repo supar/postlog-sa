@@ -1,0 +1,10 @@
+Source: postlog-sa
+Priority: extra
+Section: misc
+Build-Depends: debhelper (>= 9)
+Standards-Version: @VERSION@
+Maintainer: supar <paulrez@gmail.com>
+
+Package: postlog-sa
+Architecture: amd64
+Description: Postfix log spam analyzer

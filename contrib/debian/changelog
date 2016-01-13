@@ -1,0 +1,6 @@
+postlog-sa (1.0.0-1) unstable; urgency=low
+
+  * The first release of postfix log spam analyzer.
+
+ -- supar <paulrez@gmail.com>  Wed, 13 Jan 2016 15:50:00 +0300
+
