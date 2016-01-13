@@ -136,7 +136,12 @@ func getTime(str string) (t time.Time, err error) {
 		return t, ErrorStrFormatNotSupported
 	}
 
-	return time.Parse(time.Stamp, res[1])
+	t, err = time.Parse(time.Stamp, res[1])
+	if err == nil && t.Year() == 0 {
+		t = t.AddDate(time.Now().Year(), 0, 0)
+	}
+
+	return
 }
 
 // Get connected client identity

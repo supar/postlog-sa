@@ -6,6 +6,7 @@ import (
 	"postlog-sa/filter"
 	"reflect"
 	"regexp"
+	"time"
 	"testing"
 )
 
@@ -240,7 +241,7 @@ func TestStatmentCall(t *testing.T) {
 	db, mock := InitDBMock(t)
 	mock.ExpectPrepare("INSERT").
 		ExpectExec().
-		WithArgs("simonova@yahoo.com", "0000-12-04 10:33:24", "1.7.1.1").
+		WithArgs("simonova@yahoo.com", time.Now().Format("2006") + "-12-04 10:33:24", "1.7.1.1").
 		WillReturnResult(sqlmock.NewResult(1, 0))
 
 	stmt, err = NewStmt(db, "INSERT INTO `table`(`a`) VALUES(?f, ?t, ?c)")
