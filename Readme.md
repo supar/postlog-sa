@@ -65,11 +65,10 @@ hosts = 127.0.0.1
 query = SELECT "REJECT" `access`
     FROM (SELECT COUNT(*) `hope`, `client`, SUM(spam_victims_score) `vsum`, MAX(`created`) `c`
         FROM `spammers` WHERE `client` = '%s'
+        AND `created` >= NOW() - INTERVAL 20 DAY
         GROUP BY `client`
-            HAVING POW(EXP(1), -(`hope`/`vsum`)) > 0.6
-                AND (NOW() - INTERVAL 5 DAY) < `c`
+            HAVING (1 - POW(EXP(1), -(`vsum`/20))) > 0.1
     ) `sp`
 ```
 
-`POW(EXP(1), -(hope/vsum))` is stability boundary to have of the variable trigger rejection. The result will grow on each spam attemp according to the mail recipients. Be careful to compare result from 0 because there can be fault spam alarm made by spamassassin and You will get immidiate reaction. To forgive old, use interval comparison from the last record date.
-
+Rejection probability can be caculated as spam rate with daily incidence `1 - POW(EXP(1), -(vsum / 20))`. The value will grow on each spam attemp according to the 20 days period.
