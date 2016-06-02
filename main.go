@@ -74,6 +74,7 @@ func main() {
 
 	tl, err = tail.TailFile(Cfg.Tail.File, tail.Config{
 		Follow: true,
+		ReOpen: true,
 		Logger: log,
 	})
 
