@@ -1,6 +1,6 @@
 ## Postfix log spam analyzer
 
-This service is usful for none paranoid mail system which adds SPAM headers to the mail in contrast to the rejects or quarantine. Works as stand along process and tails mail.log file. The goal is to gather information: client address, mail from, spamassassin marker, count spam victims per mail thread. Default and simple reaction is write entry to the own log file on dirty mail, advanced - insert sql record. The second way is prefered in complex with postfix client_acces and sender_access rules
+This service is useful for none paranoid mail system which adds SPAM headers to the mail in contrast to the rejects or quarantine. Works as stand along process and tails mail.log file. The goal is to gather information: client address, mail from, spamassassin marker, count spam victims per mail thread. Default and simple reaction is write entry to the own log file on dirty mail, advanced - insert sql record. The second way is prefered in complex with postfix client_acces and sender_access rules
 
 ### Desined for
 
