@@ -33,7 +33,6 @@ func NewSpam(str string) (sp *Spam, err error) {
 		}
 	}
 
-
 	return
 }
 
@@ -70,6 +69,9 @@ func getAmavisd(str string) (s *Spam, err error) {
 		return nil, ErrorStrFormatNotSupported
 	}
 
+	// Convert to upper
+	res[2] = strings.ToUpper(res[2])
+
 	s = &Spam{
 		Score: 0,
 	}
@@ -94,7 +96,8 @@ func getAmavisd(str string) (s *Spam, err error) {
 		}
 	}
 
-	if !strings.Contains(strings.ToUpper(res[2]), "SPAM") {
+	if !strings.HasPrefix(res[2], "SPAM") &&
+		!strings.HasPrefix(res[2], "BANN") {
 		return
 	}
 

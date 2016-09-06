@@ -446,6 +446,10 @@ func TestGetAmavisSpamReport(t *testing.T) {
 			if f.QueueId != "26866B08A06B" {
 				t.Errorf("Expected Queue-ID %s, but got %s", "26866B08A06B", f.QueueId)
 			}
+
+			if f.Score != 1 {
+				t.Errorf("Expected score %d for the banned, but got %d", 1, f.Score)
+			}
 		}
 	}
 }
