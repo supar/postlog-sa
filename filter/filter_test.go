@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-
 func TestIsSmtpd(t *testing.T) {
 	var m = []string{
 		`Nov 22 01:45:57 mx postfix/smtpd[5910]: A2CAFB08A049: client=unknown[1.1.1.1]`,
@@ -64,25 +63,25 @@ func TestGetId(t *testing.T) {
 		}
 
 		switch i {
-			case 0:
-				if id != "A2CAFB08A049" {
-					t.Errorf("Expected %s value, but got %s", "A2CAFB08A049", id)
-				}
+		case 0:
+			if id != "A2CAFB08A049" {
+				t.Errorf("Expected %s value, but got %s", "A2CAFB08A049", id)
+			}
 
-			case 1:
-				if id != "BDCA3B08A08A" {
-					t.Errorf("Expected %s value, but got %s", "BDCA3B08A08A", id)
-				}
+		case 1:
+			if id != "BDCA3B08A08A" {
+				t.Errorf("Expected %s value, but got %s", "BDCA3B08A08A", id)
+			}
 
-			case 2:
-				if id != "B29AFB08A08A" {
-					t.Errorf("Expected %s value, but got %s", "B29AFB08A08A", id)
-				}
+		case 2:
+			if id != "B29AFB08A08A" {
+				t.Errorf("Expected %s value, but got %s", "B29AFB08A08A", id)
+			}
 
-			case 3:
-				if id != "D549FB08A08B" {
-					t.Errorf("Expected %s value, but got %s", "D549FB08A08B", id)
-				}
+		case 3:
+			if id != "D549FB08A08B" {
+				t.Errorf("Expected %s value, but got %s", "D549FB08A08B", id)
+			}
 		}
 	}
 }
@@ -122,63 +121,63 @@ func TestGetClient(t *testing.T) {
 		r := getClient(v)
 
 		switch i {
-			case 0:
-				if r == nil {
-					t.Errorf("Not nil value expected")
-					continue
-				}
+		case 0:
+			if r == nil {
+				t.Errorf("Not nil value expected")
+				continue
+			}
 
-				if r.Name != "unknown" {
-					t.Errorf("Expected value %s, but got %s", "unknown", r.Name)
-					continue
-				}
+			if r.Name != "unknown" {
+				t.Errorf("Expected value %s, but got %s", "unknown", r.Name)
+				continue
+			}
 
-				if r.IP != "1.1.1.1" {
-					t.Errorf("Expected value %s, but got %s", "1.1.1.1", r.IP)
-					continue
-				}
+			if r.IP != "1.1.1.1" {
+				t.Errorf("Expected value %s, but got %s", "1.1.1.1", r.IP)
+				continue
+			}
 
-				if x := r.At.Format(time.Stamp); x != "Nov 22 01:45:57" {
-					t.Errorf("Expected time %s, but got %s", "Nov 22 01:45:57", x)
-					continue
-				}
+			if x := r.At.Format(time.Stamp); x != "Nov 22 01:45:57" {
+				t.Errorf("Expected time %s, but got %s", "Nov 22 01:45:57", x)
+				continue
+			}
 
-			case 1:
-				if r == nil {
-					t.Errorf("Not nil value expected")
-					continue
-				}
+		case 1:
+			if r == nil {
+				t.Errorf("Not nil value expected")
+				continue
+			}
 
-				if r.Name != "mrelay1.hh.ru" {
-					t.Errorf("Expected value %s, but got %s", "mrelay1.hh.ru", r.Name)
-					continue
-				}
+			if r.Name != "mrelay1.hh.ru" {
+				t.Errorf("Expected value %s, but got %s", "mrelay1.hh.ru", r.Name)
+				continue
+			}
 
-				if r.IP != "001.001.001.001" {
-					t.Errorf("Expected value %s, but got %s", "001.001.001.001", r.IP)
-					continue
-				}
+			if r.IP != "001.001.001.001" {
+				t.Errorf("Expected value %s, but got %s", "001.001.001.001", r.IP)
+				continue
+			}
 
-			case 2:
-				if r == nil {
-					t.Errorf("Not nil value expected")
-					continue
-				}
+		case 2:
+			if r == nil {
+				t.Errorf("Not nil value expected")
+				continue
+			}
 
-				if r.Name != "unknown" {
-					t.Errorf("Expected value %s, but got %s", "unknown", r.Name)
-					continue
-				}
+			if r.Name != "unknown" {
+				t.Errorf("Expected value %s, but got %s", "unknown", r.Name)
+				continue
+			}
 
-				if r.IP != "01.01.001.01" {
-					t.Errorf("Expected value %s, but got %s", "01.01.001.01", r.IP)
-					continue
-				}
+			if r.IP != "01.01.001.01" {
+				t.Errorf("Expected value %s, but got %s", "01.01.001.01", r.IP)
+				continue
+			}
 
-			case 3:
-				if r != nil {
-					t.Errorf("Expected nil value, but got %v", r)
-				}
+		case 3:
+			if r != nil {
+				t.Errorf("Expected nil value, but got %v", r)
+			}
 		}
 	}
 }
@@ -196,30 +195,30 @@ func TestGetMessageId(t *testing.T) {
 		id := getMessageId(v)
 
 		switch i {
-			case 0:
-				if id != "E1a0Mks-0000Yl-1x@localhost" {
-					t.Errorf("Expected %s value, but got %s", "E1a0Mks-0000Yl-1x@localhost", id)
-				}
+		case 0:
+			if id != "E1a0Mks-0000Yl-1x@localhost" {
+				t.Errorf("Expected %s value, but got %s", "E1a0Mks-0000Yl-1x@localhost", id)
+			}
 
-			case 1:
-				if id != "201511220625.tAM6P2J8019998@inside.domain.com" {
-					t.Errorf("Expected %s value, but got %s", "201511220625.tAM6P2J8019998@inside.domain.com", id)
-				}
+		case 1:
+			if id != "201511220625.tAM6P2J8019998@inside.domain.com" {
+				t.Errorf("Expected %s value, but got %s", "201511220625.tAM6P2J8019998@inside.domain.com", id)
+			}
 
-			case 3:
-				if id != "mine.issue-12522.20151121232449.dee37bbad722865f@somedomain.com" {
-					t.Errorf("Expected %s value, but got %s", "mine.issue-12522.20151121232449.dee37bbad722865f@somedomain.com", id)
-				}
+		case 3:
+			if id != "mine.issue-12522.20151121232449.dee37bbad722865f@somedomain.com" {
+				t.Errorf("Expected %s value, but got %s", "mine.issue-12522.20151121232449.dee37bbad722865f@somedomain.com", id)
+			}
 
-			case 4:
-				if id != "4ea6228aa481371f55ed30bb51408481@mail.ru" {
-					t.Errorf("Expected %s value, but got %s", "4ea6228aa481371f55ed30bb51408481@mail.ru", id)
-				}
+		case 4:
+			if id != "4ea6228aa481371f55ed30bb51408481@mail.ru" {
+				t.Errorf("Expected %s value, but got %s", "4ea6228aa481371f55ed30bb51408481@mail.ru", id)
+			}
 
-			default:
-				if id != "" {
-					t.Errorf("Expected empty value, but got %s", id)
-				}
+		default:
+			if id != "" {
+				t.Errorf("Expected empty value, but got %s", id)
+			}
 		}
 	}
 }
@@ -242,25 +241,25 @@ func TestIsPostfixAndGetMessageId(t *testing.T) {
 		id := getMessageId(res[4])
 
 		switch i {
-			case 0:
-				if id != "E1a0Mks-0000Yl-1x@localhost" {
-					t.Errorf("Expextd %s value, but got %s", "E1a0Mks-0000Yl-1x@localhost", id)
-				}
+		case 0:
+			if id != "E1a0Mks-0000Yl-1x@localhost" {
+				t.Errorf("Expextd %s value, but got %s", "E1a0Mks-0000Yl-1x@localhost", id)
+			}
 
-			case 1:
-				if id != "201511220625.tAM6P2J8019998@inside.domain.com" {
-					t.Errorf("Expextd %s value, but got %s", "201511220625.tAM6P2J8019998@inside.domain.com", id)
-				}
+		case 1:
+			if id != "201511220625.tAM6P2J8019998@inside.domain.com" {
+				t.Errorf("Expextd %s value, but got %s", "201511220625.tAM6P2J8019998@inside.domain.com", id)
+			}
 
-			case 3:
-				if id != "mine.issue-12522.20151121232449.dee37bbad722865f@somedomain.com" {
-					t.Errorf("Expextd %s value, but got %s", "mine.issue-12522.20151121232449.dee37bbad722865f@somedomain.com", id)
-				}
+		case 3:
+			if id != "mine.issue-12522.20151121232449.dee37bbad722865f@somedomain.com" {
+				t.Errorf("Expextd %s value, but got %s", "mine.issue-12522.20151121232449.dee37bbad722865f@somedomain.com", id)
+			}
 
-			default:
-				if id != "" {
-					t.Errorf("Expextd empty value, but got %s", id)
-				}
+		default:
+			if id != "" {
+				t.Errorf("Expextd empty value, but got %s", id)
+			}
 		}
 	}
 }
@@ -315,7 +314,6 @@ func TestIsRemoved(t *testing.T) {
 	}
 }
 
-
 func TestGetFrom(t *testing.T) {
 	var m = []string{
 		`Nov 22 01:45:57 mx postfix/smtpd[5910]: A2CAFB08A049: client=unknown[1.1.1.1]`,
@@ -328,15 +326,15 @@ func TestGetFrom(t *testing.T) {
 		from := getFrom(v)
 
 		switch i {
-			case 0, 1, 2:
-				if from != "" {
-					t.Errorf("Expected empty value, but got %s", from)
-				}
+		case 0, 1, 2:
+			if from != "" {
+				t.Errorf("Expected empty value, but got %s", from)
+			}
 
-			case 3:
-				if from != "cvetkova09055@mail.ru" {
-					t.Errorf("Expected %s value, but got %s", "cvetkova09055@mail.ru", from)
-				}
+		case 3:
+			if from != "cvetkova09055@mail.ru" {
+				t.Errorf("Expected %s value, but got %s", "cvetkova09055@mail.ru", from)
+			}
 		}
 	}
 }
@@ -395,12 +393,13 @@ func TestGetAmavisSpamReport(t *testing.T) {
 	var m = []string{
 		`Dec  2 16:53:57 mx amavis[30290]: (30290-03) Passed SPAMMY {RelayedTaggedInbound}, [1.1.111.11]:49199 [1.1.111.11] <dashapopovich@yahoo.com> -> <ko@foo.net>,<ko@foo.net>,<sa@foo.net>,<sm@foo.net>,<ret@foo.net>,<lich@foo.net>,<lad@foo.net>,<arov@foo.net>, Queue-ID: 33F124562005, Message-ID: <4FB5F6D3A87C5EFD21246DD33739E940@ip-7-77-51-20.bb.netby.net>, mail_id: Tq0EZ1qm6_xb, Hits: 12.525, size: 34901, queued_as: E27B04562007, 667 ms`,
 		`Dec  1 09:59:32 mx amavis[27587]: (27587-19) Passed SPAM, LOCAL [10.10.1.2] [3.6.4.4] <efmattl@interstelloz.co.ua> -> <lova@foo.net>, quarantine: 4/spam-4ubUIQY5JxVu.gz, Message-ID: <b98901d12bc6$ae2ae220$ce0f9374@efmattl>, mail_id: 4ubUIQY5JxVu, Hits: 11.004, size: 144953, queued_as: 354BEA680DB, 749 ms`,
-		`Dec 30 12:47:53 mx amavis[12781]: (12781-09) Passed SPAMMY {RelayedTaggedInbound}, [78.186.119.5]:47116 [78.186.119.5] <correspondence3052@list.ru> -> <kaliko@lanbilling.ru>,<kiselev@lanbilling.ru>,<kochkina@lanbilling.ru>,<laptev@lanbilling.ru>,<razzhivin@lanbilling.ru>,<rezunenko@lanbilling.ru>,<sascheko@lanbilling.ru>,<smirnov@lanbilling.ru>,<tretyakova@lanbilling.ru>,<velichay@lanbilling.ru>,<vlad@lanbilling.ru>,<zakharova@lanbilling.ru>, Queue-ID: A3C5A4562012, Message-ID: <32QMPM-XI7RQ9-2N@list.ru>, mail_id: DyyjQNpkYV4x, Hits: 12.406, size: 2835, queued_as: 9AC08456201F, 342 ms`,
-		`Dec 30 12:54:47 mx amavis[12781]: (12781-13) Passed SPAMMY {RelayedTaggedInbound}, [117.68.193.4]:3223 [117.68.193.4] <fytygxa@uvupa.com> -> <kaliko@lanbilling.ru>,<kochkina@lanbilling.ru>,<sascheko@lanbilling.ru>,<smirnov@lanbilling.ru>,<tretyakova@lanbilling.ru>,<velichay@lanbilling.ru>,<vlad@lanbilling.ru>,<zakharova@lanbilling.ru>, Queue-ID: AE1454562012, mail_id: evYBMeO836NQ, Hits: 6.76, size: 1425, queued_as: EC3AE456201F, 13114 ms`,
+		`Dec 30 12:47:53 mx amavis[12781]: (12781-09) Passed SPAMMY {RelayedTaggedInbound}, [78.186.119.5]:47116 [78.186.119.5] <correspondence3052@list.ru> -> <kaliko@mailserver.net>,<kiselev@mailserver.net>,<userkaa@mailserver.net>,<laptev@mailserver.net>,<vin@mailserver.net>,<shaul@mailserver.net>,<sasa@mailserver.net>,<smirnov@mailserver.net>,<yakov@mailserver.net>,<chay@mailserver.net>,<vlad@mailserver.net>,<userzaa@mailserver.net>, Queue-ID: A3C5A4562012, Message-ID: <32QMPM-XI7RQ9-2N@list.ru>, mail_id: DyyjQNpkYV4x, Hits: 12.406, size: 2835, queued_as: 9AC08456201F, 342 ms`,
+		`Dec 30 12:54:47 mx amavis[12781]: (12781-13) Passed SPAMMY {RelayedTaggedInbound}, [117.68.193.4]:3223 [117.68.193.4] <fytygxa@uvupa.com> -> <kaliko@mailserver.net>,<userkaa@mailserver.net>,<sasa@mailserver.net>,<smirnov@mailserver.net>,<yakov@mailserver.net>,<chay@mailserver.net>,<vlad@mailserver.net>,<userzaa@mailserver.net>, Queue-ID: AE1454562012, mail_id: evYBMeO836NQ, Hits: 6.76, size: 1425, queued_as: EC3AE456201F, 13114 ms`,
+		`Sep  5 11:21:07 mx amavis[18886]: (18886-11) Blocked BANNED (.asc,credit_card_receipt_D0CDD328.js) {DiscardedInbound,Quarantined}, [188.174.71.22]:59058 [188.174.71.22] <Blevins.9952@idotconnect.net> -> <gooduser@mailserver.net>, quarantine: banned@mailserver.net, Queue-ID: 26866B08A06B, Message-ID: <99564dd4f5dd96bf9dc7541eea5b75ba@,ailserver.net, mail_id: 7Vg0b3luDu2U, Hits: -, size: 16447, 181 ms`,
 	}
 
 	for i, v := range m {
-		f, err := getAmavisd(v);
+		f, err := getAmavisd(v)
 
 		if err != nil {
 			t.Errorf("Expected error %s", ErrorStrFormatNotSupported.Error())
@@ -442,6 +441,11 @@ func TestGetAmavisSpamReport(t *testing.T) {
 			if f.Score != 8 {
 				t.Errorf("Expected score %d, but got %d", 8, f.Score)
 			}
+
+		case 4:
+			if f.QueueId != "26866B08A06B" {
+				t.Errorf("Expected Queue-ID %s, but got %s", "26866B08A06B", f.QueueId)
+			}
 		}
 	}
 }
@@ -453,7 +457,7 @@ func TestGetAmavisNotSpamReport(t *testing.T) {
 	}
 
 	for _, v := range m {
-		f, err := getAmavisd(v);
+		f, err := getAmavisd(v)
 
 		if err != nil {
 			t.Errorf("Expected error %s", ErrorStrFormatNotSupported.Error())
@@ -517,7 +521,6 @@ func TestNewMailThreadChildIdValue(t *testing.T) {
 	}
 }
 
-
 func TestGetSmtpStatusValue(t *testing.T) {
 	var (
 		m = []string{
@@ -527,7 +530,7 @@ func TestGetSmtpStatusValue(t *testing.T) {
 	)
 
 	for i, l := range m {
-		switch(i) {
+		switch i {
 		case 0:
 			if v := getSmtpStatus(l); v != "deferred" {
 				t.Errorf("Expected deferred status, but got %s", v)

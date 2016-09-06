@@ -24,13 +24,12 @@ var (
 
 type Client struct {
 	Name, IP string
-	At time.Time
+	At       time.Time
 }
-
 
 func init() {
 	// Pickup amavis log entry with statistics
-	amavisdRe = regexp.MustCompile(`amavis\[(\d+)]\: \([0-9\-]+\) Passed (CLEAN|SPAM|SPAMMY).*\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\] \<([a-zA-Z0-9-_\.@]{1,})\> \-\> (.*)`)
+	amavisdRe = regexp.MustCompile(`amavis\[(\d+)]\: \([0-9\-]+\) \w+ (CLEAN|SPAM|SPAMMY|BANNED).*\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\] \<([a-zA-Z0-9-_\.@]{1,})\> \-\> (.*)`)
 	// Find emails list in the amavis statistics message
 	amavisEmlRe = regexp.MustCompile(`(\<` + emailTpl + `\>\,){1,}`)
 	// Find queued_as parameter in amavis message
@@ -148,7 +147,7 @@ func getTime(str string) (t time.Time, err error) {
 func getClient(str string) (v *Client) {
 	var (
 		res []string
-		ok bool
+		ok  bool
 	)
 
 	ok, res = IsPostfix(str, []string{"smtpd"})
