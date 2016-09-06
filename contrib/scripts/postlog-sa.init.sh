@@ -1,55 +1,54 @@
 #!/bin/bash
-# SBSS service level module init script
+# Postfix log spam analyzer init script
 
-PROGNAME=postlog-sa
-PROGPATH=/usr/sbin/
-PROGCONFIG=/etc/postlog-sa/postlog-sa.ini
 
-service_running() {
-    local PID=$( ps ax | grep ${PROGNAME} | grep -v grep | grep -v bash | awk '{print $1}' )
-    
-    if test -z "$PID"; then
-        echo 0
-        
-        return
+. /lib/lsb/init-functions
+
+NAME=postlog-sa
+DAEMON=/usr/sbin/${NAME}
+CONFIG=/etc/${NAME}/${NAME}.ini
+PIDFILE=/var/run/${NAME}.pid
+
+status_service() {
+    if [ -e $PIDFILE ]; then
+        status_of_proc -p $PIDFILE $DAEMON "$NAME process" && exit 0 || exit $?
+    else
+        log_daemon_msg "$NAME process is not running"
+        log_end_msg 0
     fi
-    
-    echo $PID
 }
 
 start_service() {
-    PID=$( service_running )
-    if [ $PID -gt 0 ]; then
-        echo "Service ${PROGNAME} already running [$PID]"
-        
-        return
+    if [ -e $PIDFILE ]; then
+        status_of_proc -p $PIDFILE $DAEMON "$NAME process" && status="0" || status="$?"
+
+        if [ $status = "0" ]; then
+            exit
+        fi
     fi
-    
-    EXECUTE=${PROGPATH}${PROGNAME}
-    
-    if ! test -e ${EXECUTE}; then
-        echo "Service not found at ${EXECUTE}"
-        exit 1
+
+    log_daemon_msg "Starting the process" "$NAME"
+    echo
+
+    if start-stop-daemon --start --quiet --background --oknodo --make-pidfile --pidfile $PIDFILE --exec $DAEMON -- -C $CONFIG; then
+        log_end_msg 0
+    else
+        log_end_msg 1
     fi
-    
-    if ! test -e ${PROGCONFIG}; then
-        echo "Configuration file not found at ${PROGCONFIG}"
-        exit 1
-    fi
-    
-    echo "Starting ${PROGNAME}..."
-    nohup ${EXECUTE} -C ${PROGCONFIG} >/dev/null 2>&1 &
 }
 
 stop_service() {
-    PID=$( service_running )
-    if [ $PID = 0 ]; then
-        echo "Service ${PROGNAME} is not running"
-        
-        return
+    if [ -e $PIDFILE ]; then
+        status_of_proc -p $PIDFILE $DAEMON "Stoppping the $NAME process" && status="0" || status="$?"
+
+        if [ "$status" = 0 ]; then
+            start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE
+            /bin/rm -rf $PIDFILE
+        fi
+     else
+        log_daemon_msg "$NAME process is not running"
+        log_end_msg 0
     fi
-    
-    kill -QUIT $PID
 }
 
 case "$1" in
@@ -65,18 +64,11 @@ case "$1" in
         start_service
     ;;
     status)
-        PID=$( service_running )
-        
-        if [ $PID -gt 0 ]; then
-            echo "Service ${PROGNAME} is running [$PID]"
-        else
-            echo "Service ${PROGNAME} is not running"
-        fi
+        status_service
     ;;
     *)
-        echo "Usage: /etc/init.d/${PROGNAME} {start|stop|restart|status}"
+        echo "Usage: /etc/init.d/${NAME} {start|stop|restart|status}"
     ;;
 esac
 
 exit 0
-
